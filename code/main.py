@@ -9,6 +9,8 @@ x=0
 y=0
 dif = 500 / 9
 value = 0
+
+# store base grid for resets
 base_grid =[
         [7, 8, 0, 4, 0, 0, 1, 2, 0],
         [6, 0, 0, 0, 7, 5, 0, 0, 9],
@@ -25,6 +27,7 @@ grid = [row[:] for row in base_grid]
 font1 = pygame.font.SysFont('Arial', 38)
 font2 = pygame.font.SysFont('Arial', 20)
 
+# draw selected box to edit
 def draw_selection_box():
     left = x * cell_size
     top = y * cell_size
@@ -38,6 +41,7 @@ def draw_selection_box():
 
     pygame.draw.rect(screen, (255, 0, 255), (left, top, right - left, bottom - top), 5)
 
+# helper function
 def get_cord(pos):
     global x, y
     x = int(pos[0] // cell_size)
@@ -45,21 +49,34 @@ def get_cord(pos):
     x = max(0, min(8, x))
     y = max(0, min(8, y))
 
+# to draw the entire board
 def draw():
     board_size = cell_size * 9
-    for col in range(9):
-        for row in range(9):
-            if grid[row][col] != 0:
-                pygame.draw.rect(
-                    screen, (0, 150, 75),
-                    (col * cell_size, row * cell_size, cell_size, cell_size)
-                )
-                text_surf = font1.render(str(grid[row][col]), True, (0, 0, 0))
+    for row in range(9):
+        for col in range(9):
+            num = grid[row][col]
+            if base_grid[row][col] != 0:
+                color = (190, 190, 190) # grey for base_grid
+            elif num != 0:
+                color = (100, 190, 255) # light blue for inputs
+            else:
+                color = (255, 255, 255) # white for empty
+
+            pygame.draw.rect(
+                screen,
+                color,
+                (col * cell_size, row * cell_size, cell_size, cell_size)
+            )
+            if num != 0:
+                text_color = (0, 0, 0)
+                text_surf = font1.render(str(num), True, text_color)
                 text_rect = text_surf.get_rect(center=(
                     col * cell_size + cell_size // 2,
                     row * cell_size + cell_size // 2
                 ))
                 screen.blit(text_surf, text_rect)
+
+    # grid lines
     for i in range(10):
         thick = 7 if i % 3 == 0 else 2
         pos = i * cell_size
@@ -67,10 +84,7 @@ def draw():
         pygame.draw.line(screen, (0, 0, 0), (pos, 0), (pos, board_size), thick)
 
 
-def draw_val(val):
-    text1 = font1.render(str(val), 1, (0, 0, 0))
-    screen.blit(text1, (x * dif + 15, y * dif + 15))
-
+# text instructions
 def info_display():
     text1 = font2.render("Press R to Reset the board", 1, (0, 0, 0))
     text2 = font2.render("TODO: Add button to start Backtracking", 1, (0, 0, 0))
