@@ -10,7 +10,6 @@ def find_neighbors():
 
     for row in range(GRID_DIMENSIONS):
         for col in range(GRID_DIMENSIONS):
-            
             set_neighbors = set()
 
             subgrid_row = row - (row % SUBGRID_DIMENSIONS)
@@ -80,7 +79,7 @@ def is_valid_move(grid, row, col, num):
     return True
 
 
-def forward_check_solve(grid, values):
+def forward_check_solve(grid, values, neighbors):
     empty = next_empty(grid)
     if empty is None:
         return True
@@ -103,7 +102,7 @@ def forward_check_solve(grid, values):
                     break
 
         if valid:
-            if forward_check_solve(grid, values):
+            if forward_check_solve(grid, values, neighbors):
                 return True
 
         for (neighbor, num) in removed:
@@ -130,7 +129,7 @@ if __name__ == '__main__':
     neighbors = find_neighbors()
     values = find_values(grid)
 
-    if forward_check_solve(grid, values):
+    if forward_check_solve(grid, values, neighbors):
         for row in grid:
             print(row)
     else:
