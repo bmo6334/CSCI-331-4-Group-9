@@ -1,4 +1,5 @@
 import pygame
+import backtrack_search
 import csp_backtrack_search
 
 pygame.font.init()
@@ -88,7 +89,7 @@ def draw():
 # text instructions
 def info_display():
     text1 = font2.render("Press R to Reset the board", 1, (0, 0, 0))
-    text2 = font2.render("TODO: Add button to start Backtracking", 1, (0, 0, 0))
+    text2 = font2.render("Press B to solve with Backtracking", 1, (0, 0, 0))
     text3 = font2.render("Press C to solve with CSP Backtracking", 1, (0, 0, 0))
     screen.blit(text1, (5, 500))
     screen.blit(text2, (5, 520))
@@ -122,6 +123,11 @@ while run:
             if event.key == pygame.K_r:
                 flag2 = 0
                 grid = [row[:] for row in base_grid]
+            # solve with csp backtracking
+            if event.key == pygame.K_b:
+                flag2 = 0
+                grid = [row[:] for row in base_grid]
+                backtrack_search.backtrack_solve(grid)
             # solve with csp backtracking
             if event.key == pygame.K_c:
                 flag2 = 0
