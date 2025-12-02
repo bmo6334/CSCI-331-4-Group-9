@@ -3,6 +3,8 @@ import math
 GRID_DIMENSIONS = 9
 SUBGRID_DIMENSIONS = int(math.sqrt(GRID_DIMENSIONS))
 
+count = 0
+
 def next_empty(grid):
     for row in range(GRID_DIMENSIONS):
         for col in range(GRID_DIMENSIONS):
@@ -31,6 +33,8 @@ def is_valid_move(grid, row, col, num):
     return True
 
 def backtrack_solve(grid):
+    global count
+    count += 1
     empty = next_empty(grid)
     if empty is None:
         return True
@@ -65,3 +69,5 @@ if __name__ == '__main__':
             print(row)
     else:
         print("No solution")
+
+    print(count)

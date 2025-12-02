@@ -4,6 +4,7 @@ GRID_DIMENSIONS = 9
 SUBGRID_DIMENSIONS = int(math.sqrt(GRID_DIMENSIONS))
 
 neighbors = {}
+count = 0
 
 def find_neighbors():
     neighbors = {}
@@ -80,6 +81,8 @@ def is_valid_move(grid, row, col, num):
 
 
 def forward_check_solve(grid, values, neighbors):
+    global count
+    count += 1
     empty = next_empty(grid)
     if empty is None:
         return True
@@ -134,3 +137,5 @@ if __name__ == '__main__':
             print(row)
     else:
         print("No solution")
+
+    print(count)
