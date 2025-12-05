@@ -1,4 +1,5 @@
 import math
+import time
 
 GRID_DIMENSIONS = 9
 SUBGRID_DIMENSIONS = int(math.sqrt(GRID_DIMENSIONS))
@@ -118,24 +119,29 @@ def forward_check_solve(grid, values, neighbors):
 
 if __name__ == '__main__':
     grid = [
-        [7, 8, 0, 4, 0, 0, 1, 2, 0],
-        [6, 0, 0, 0, 7, 5, 0, 0, 9],
-        [0, 0, 0, 6, 0, 1, 0, 7, 8],
-        [0, 0, 7, 0, 4, 0, 2, 6, 0],
-        [0, 0, 1, 0, 5, 0, 9, 3, 0],
-        [9, 0, 4, 0, 6, 0, 0, 0, 5],
-        [0, 7, 0, 3, 0, 0, 0, 1, 2],
-        [1, 2, 0, 0, 0, 7, 4, 0, 0],
-        [0, 4, 9, 2, 0, 6, 0, 0, 7]
+        [4, 2, 0, 0, 8, 0, 0, 0, 7],
+        [3, 0, 0, 0, 0, 6, 0, 0, 2],
+        [0, 0, 0, 0, 0, 5, 0, 0, 4],
+        [2, 0, 0, 0, 0, 8, 0, 6, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [9, 0, 0, 7, 0, 0, 0, 0, 3],
+        [8, 0, 0, 0, 0, 9, 0, 1, 0],
+        [0, 0, 9, 0, 5, 0, 0, 3, 0],
+        [0, 5, 4, 0, 0, 0, 0, 0, 0]
     ]
+
+    start = time.time_ns()
+    end = 0
 
     neighbors = find_neighbors()
     values = find_values(grid)
 
     if forward_check_solve(grid, values, neighbors):
+        end = time.time_ns()
         for row in grid:
             print(row)
     else:
         print("No solution")
 
-    print(count)
+    print(f"Count: {count}")
+    print(f"Time: {(end - start) / 1000000: .3f} ms")
